@@ -1,0 +1,68 @@
+openapi: 3.1.0
+info:
+  title: Product Search API
+  description: API służące do wyszukiwania produktów w bazie danych.
+  version: 1.0.0
+servers:
+  - url: https://product-search-api.onrender.com
+    description: Production server
+paths:
+  /search:
+    get:
+      operationId: searchProducts
+      summary: Wyszukiwanie produktów w bazie.
+      description: Zwraca listę produktów pasujących do zapytania lub błąd, jeśli nic nie znaleziono.
+      parameters:
+        - name: query
+          in: query
+          required: true
+          description: Zapytanie do wyszukiwania produktów.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista znalezionych produktów.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exact_matches:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Product Name:
+                          type: string
+                        Price:
+                          type: string
+                        Description:
+                          type: string
+                        URL:
+                          type: string
+                        Picture:
+                          type: string
+                  similar_matches:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Product Name:
+                          type: string
+                        Price:
+                          type: string
+                        Description:
+                          type: string
+                        URL:
+                          type: string
+                        Picture:
+                          type: string
+        '404':
+          description: Brak wyników dla podanego zapytania.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
